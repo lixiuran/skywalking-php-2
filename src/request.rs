@@ -16,7 +16,7 @@
 use crate::{
     component::COMPONENT_PHP_ID,
     context::RequestContext,
-    module::{is_enable, INJECT_CONTEXT, SKYWALKING_VERSION},
+    module::{is_enable, INJECT_CONTEXT, SKYWALKING_VERSION, IGNORE_PATH},
     util::{catch_unwind_result, get_sapi_module_name, z_val_to_string, is_path_ignored},
 };
 use anyhow::{anyhow, Context};
@@ -29,7 +29,7 @@ use std::{
     ptr::null_mut,
     sync::atomic::{AtomicBool, AtomicPtr, Ordering},
 };
-use tracing::{error, instrument, trace, warn, debug};
+use tracing::{error, instrument, trace, warn, debug, info};
 use url::Url;
 
 const INJECT_CONTEXT_SERVICE_NAME: &str = "SW_SERVICE_NAME";
@@ -71,9 +71,11 @@ fn request_init_for_fpm() -> crate::Result<()> {
         .and_then(z_val_to_string)
         .unwrap_or_else(|| "/".to_string());
     
+    debug!("Checking path '{}' against ignore patterns: {}", path, *IGNORE_PATH);
+    
     // Skip tracing if path is in ignore list
     if is_path_ignored(&path) {
-        debug!("Path '{}' is ignored, skipping trace", path);
+        info!("Path '{}' is ignored, skipping trace", path);
         return Ok(());
     }
 

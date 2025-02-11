@@ -23,6 +23,7 @@ use std::{
 use systemstat::{IpAddr, Platform, System};
 use crate::module::IGNORE_PATH;
 use glob::Pattern;
+use tracing::debug;
 
 pub static IPS: Lazy<Vec<String>> = Lazy::new(|| {
     System::new()
@@ -101,13 +102,45 @@ pub fn is_path_ignored(path: &str) -> bool {
         .filter(|s| !s.is_empty());
 
     for pattern in ignore_paths {
-        // 将 * 通配符转换为 glob pattern
-        let pattern = pattern.replace('*', "[^/]*");
-        if let Ok(pattern) = Pattern::new(&pattern) {
+        // 直接使用 glob pattern，不需要替换 *
+        if let Ok(pattern) = Pattern::new(pattern) {
             if pattern.matches(path) {
+                debug!("Path '{}' matches ignore pattern '{}'", path, pattern);
                 return true;
             }
         }
     }
     false
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::module::IGNORE_PATH;
+
+    #[test]
+    fn test_path_ignored() {
+        // 设置测试配置
+        std::env::set_var("SKYWALKING_AGENT_IGNORE_PATH", "/health,/metrics,/static/*,/favicon.ico");
+        
+        let test_cases = vec![
+            ("/static/b.png", true),
+            ("/static/dir/b.png", true),
+            ("/health", true),
+            ("/metrics", true),
+            ("/favicon.ico", true),
+            ("/api/users", false),
+            ("/static", false),
+        ];
+
+        for (path, expected) in test_cases {
+            assert_eq!(
+                is_path_ignored(path), 
+                expected,
+                "Path '{}' should{} be ignored", 
+                path,
+                if expected { "" } else { " not" }
+            );
+        }
+    }
 }
