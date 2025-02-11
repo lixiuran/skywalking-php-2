@@ -21,6 +21,8 @@ use std::{
     panic::{catch_unwind, UnwindSafe},
 };
 use systemstat::{IpAddr, Platform, System};
+use crate::module::IGNORE_PATH;
+use glob::Pattern;
 
 pub static IPS: Lazy<Vec<String>> = Lazy::new(|| {
     System::new()
@@ -90,4 +92,22 @@ pub fn get_str_ini_with_default(name: &str) -> String {
         .and_then(|s| s.to_str().ok())
         .map(ToOwned::to_owned)
         .unwrap_or_default()
+}
+
+/// Check if the given path matches any of the ignore patterns
+pub fn is_path_ignored(path: &str) -> bool {
+    let ignore_paths = IGNORE_PATH.split(',')
+        .map(|s| s.trim())
+        .filter(|s| !s.is_empty());
+
+    for pattern in ignore_paths {
+        // 将 * 通配符转换为 glob pattern
+        let pattern = pattern.replace('*', "[^/]*");
+        if let Ok(pattern) = Pattern::new(&pattern) {
+            if pattern.matches(path) {
+                return true;
+            }
+        }
+    }
+    false
 }

@@ -17,7 +17,7 @@ use crate::{
     component::COMPONENT_PHP_ID,
     context::RequestContext,
     module::{is_enable, INJECT_CONTEXT, SKYWALKING_VERSION},
-    util::{catch_unwind_result, get_sapi_module_name, z_val_to_string},
+    util::{catch_unwind_result, get_sapi_module_name, z_val_to_string, is_path_ignored},
 };
 use anyhow::{anyhow, Context};
 use dashmap::DashMap;
@@ -29,7 +29,7 @@ use std::{
     ptr::null_mut,
     sync::atomic::{AtomicBool, AtomicPtr, Ordering},
 };
-use tracing::{error, instrument, trace, warn};
+use tracing::{error, instrument, trace, warn, debug};
 use url::Url;
 
 const INJECT_CONTEXT_SERVICE_NAME: &str = "SW_SERVICE_NAME";
@@ -64,6 +64,18 @@ fn request_init_for_fpm() -> crate::Result<()> {
     jit_initialization();
 
     let server = get_page_request_server()?;
+    
+    // Get request path
+    let path = server
+        .get("REQUEST_URI")
+        .and_then(z_val_to_string)
+        .unwrap_or_else(|| "/".to_string());
+    
+    // Skip tracing if path is in ignore list
+    if is_path_ignored(&path) {
+        debug!("Path '{}' is ignored, skipping trace", path);
+        return Ok(());
+    }
 
     let header = get_page_request_header(server);
     let url = get_page_request_url(server)?;
@@ -223,6 +235,23 @@ fn request_init_for_swoole(request: &mut ZVal) -> crate::Result<()> {
         .as_mut_z_obj()
         .context("swoole request isn't object")?;
 
+    // Get request path
+    let server = request
+        .get_property("server")
+        .as_z_arr()
+        .context("swoole request server not exists")?;
+        
+    let path = server
+        .get("request_uri")
+        .and_then(z_val_to_string)
+        .unwrap_or_else(|| "/".to_string());
+
+    // Skip tracing if path is in ignore list
+    if is_path_ignored(&path) {
+        debug!("Path '{}' is ignored, skipping trace", path);
+        return Ok(());
+    }
+
     let fd = request
         .get_property("fd")
         .as_long()
@@ -234,11 +263,6 @@ fn request_init_for_swoole(request: &mut ZVal) -> crate::Result<()> {
         .context("swoole request header not exists")?;
 
     let header = get_swoole_request_header(headers);
-
-    let server = request
-        .get_property("server")
-        .as_z_arr()
-        .context("swoole request server not exists")?;
 
     let method = get_swoole_request_method(server);
     let url = get_swoole_request_url(server, headers)?;

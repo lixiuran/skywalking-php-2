@@ -157,6 +157,9 @@ pub static INJECT_CONTEXT: Lazy<bool> =
 pub const IS_ZEND_OBSERVER_CALLED_FOR_INTERNAL: bool =
     sys::PHP_MAJOR_VERSION > 8 || (sys::PHP_MAJOR_VERSION == 8 && sys::PHP_MINOR_VERSION >= 2);
 
+pub static IGNORE_PATH: Lazy<String> = 
+    Lazy::new(|| get_str_ini_with_default(SKYWALKING_AGENT_IGNORE_PATH));
+
 pub fn init() {
     if !is_enable() {
         return;
@@ -182,6 +185,7 @@ pub fn init() {
     Lazy::force(&KAFKA_BOOTSTRAP_SERVERS);
     Lazy::force(&KAFKA_PRODUCER_CONFIG);
     Lazy::force(&INJECT_CONTEXT);
+    Lazy::force(&IGNORE_PATH);
 
     if let Err(err) = try_init_logger() {
         eprintln!("skywalking_agent: initialize logger failed: {}", err);
