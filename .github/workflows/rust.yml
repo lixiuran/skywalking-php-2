@@ -1,0 +1,272 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Rust
+
+on:
+  push:
+    branches:
+      - master
+      - debug
+  pull_request:
+    branches:
+      - "**"
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: "1"
+  RUSTFLAGS: "-D warnings"
+  LLVM_CONFIG_PATH: llvm-config-10
+  RUST_STABLE_TOOLCHAIN: "1.65"
+  RUST_NIGHTLY_TOOLCHAIN: "nightly-2023-07-12"
+
+jobs:
+  required:
+    needs:
+      - test
+      - fmt
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check results
+        run: |
+          [[ ${{ needs.test.result }} == 'success' ]] || exit 1;
+          [[ ${{ needs.fmt.result }} == 'success' ]] || exit 1;
+
+  test:
+    name: Test
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+          # TODO Temporarily remove macos and wait for the docker container's connection refused problem to be resolved.
+          # - macos-12
+        flag:
+          # Many composer dependencies need PHP 7.2+
+          - php_version: "7.2"
+            swoole_version: "4.6.7"
+            enable_zend_observer: "Off"
+            cargo_features: ""
+          - php_version: "7.3"
+            swoole_version: "4.7.1"
+            enable_zend_observer: "Off"
+            cargo_features: ""
+          - php_version: "7.4"
+            swoole_version: "4.8.10"
+            enable_zend_observer: "Off"
+            cargo_features: ""
+          - php_version: "8.0"
+            swoole_version: "5.0.0"
+            enable_zend_observer: "Off"
+            cargo_features: ""
+          - php_version: "8.0"
+            swoole_version: "5.0.0"
+            enable_zend_observer: "On"
+            cargo_features: ""
+          - php_version: "8.1"
+            swoole_version: "5.1.1"
+            enable_zend_observer: "Off"
+            cargo_features: ""
+          - php_version: "8.1"
+            swoole_version: "5.1.1"
+            enable_zend_observer: "On"
+            cargo_features: ""
+          - php_version: "8.2"
+            swoole_version: "5.1.1"
+            enable_zend_observer: "Off"
+            cargo_features: ""
+          - php_version: "8.2"
+            swoole_version: "5.1.1"
+            enable_zend_observer: "On"
+            cargo_features: ""
+          - php_version: "8.2"
+            swoole_version: "5.1.1"
+            enable_zend_observer: "On"
+            cargo_features: "--features kafka-reporter"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: Install libclang and protobuf for Linux
+        if: matrix.os == 'ubuntu-20.04'
+        run: sudo apt-get install -y llvm-10-dev libclang-10-dev protobuf-compiler
+
+      - name: Install protobuf for Macos
+        if: matrix.os == 'macos-12'
+        run: brew install protobuf
+
+      - name: Install libsasl2
+        if: matrix.os == 'ubuntu-20.04'
+        run: sudo apt-get install -y libsasl2-dev
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.flag.php_version }}
+          tools: php-config, composer:v2
+          extensions: >
+            bcmath, calendar, ctype, dom, exif, gettext, iconv, intl, json, mbstring,
+            mysqli, mysqlnd, opcache, pdo, pdo_mysql, phar, posix, readline, redis,
+            memcached, swoole-${{ matrix.flag.swoole_version }}, xml, xmlreader, xmlwriter,
+            yaml, zip, mongodb, memcache
+
+      - name: Setup php-fpm for Linux
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          sudo apt-get install -y php${{ matrix.flag.php_version }}-fpm
+          sudo ln -sf /usr/sbin/php-fpm${{ matrix.flag.php_version }} /usr/sbin/php-fpm
+
+      - name: PHP version
+        run: |
+          which php ; php --version ; php -m
+          which php-fpm ; php-fpm --version ; php-fpm -m
+          php-config || true
+          php -r 'echo "Swoole version: " . phpversion("swoole") . "\n";'
+          composer --version
+
+          [[ `php --version` == PHP\ ${{ matrix.flag.php_version }}.* ]] || exit 1;
+          [[ `php-fpm --version` == PHP\ ${{ matrix.flag.php_version }}.* ]] || exit 1;
+          [[ `php-config --version` == ${{ matrix.flag.php_version }}.* ]] || exit 1;
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_STABLE_TOOLCHAIN }}
+          override: true
+          components: clippy
+
+      - name: Setup cargo cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ matrix.os }}-test-${{ matrix.flag.php_version }}-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cargo clippy
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: ${{ env.RUST_STABLE_TOOLCHAIN }}
+          command: clippy
+          args: --release --workspace ${{ matrix.flag.cargo_features }}
+
+      - name: Cargo build
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: ${{ env.RUST_STABLE_TOOLCHAIN }}
+          command: build
+          args: --release --workspace ${{ matrix.flag.cargo_features }}
+
+      - name: Composer install
+        run: composer install --working-dir=tests/php
+
+      - name: Setup docker (missing on MacOS)
+        if: matrix.os == 'macos-12'
+        run: |
+          brew install docker
+          brew install docker-compose
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn $(brew --prefix)/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+
+          colima start
+
+          # For test containers to find the Colima socket
+          # https://github.com/abiosoft/colima/blob/main/docs/FAQ.md#cannot-connect-to-the-docker-daemon-at-unixvarrundockersock-is-the-docker-daemon-running
+          sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
+
+          colima list
+
+      # Build mixture for cargo test.
+      - name: Docker compose
+        run: |
+          docker compose up -d --wait
+          docker compose ps
+
+      # Try cargo test.
+      - name: Cargo test
+        id: cargo-test-step
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: ${{ env.RUST_STABLE_TOOLCHAIN }}
+          command: test
+          args: --release --workspace ${{ matrix.flag.cargo_features }}
+        env:
+          ENABLE_ZEND_OBSERVER: ${{ matrix.flag.enable_zend_observer }}
+        continue-on-error: true
+
+      # Rebuild the mixture when cargo test failed.
+      - name: Docker compose restart
+        if: steps.cargo-test-step.outcome != 'success'
+        run: |
+          docker compose restart
+          docker compose ps
+
+      # Delay before retry.
+      - name: Delay
+        if: steps.cargo-test-step.outcome != 'success'
+        run: sleep 20
+
+      # Retry cargo test.
+      - name: Cargo test
+        if: steps.cargo-test-step.outcome != 'success'
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: ${{ env.RUST_STABLE_TOOLCHAIN }}
+          command: test
+          args: --release --workspace
+        env:
+          ENABLE_ZEND_OBSERVER: ${{ matrix.flag.enable_zend_observer }}
+
+      - name: View logs
+        if: always()
+        run: |
+          docker compose ps
+          cat /tmp/*.log
+
+  fmt:
+    name: Fmt
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: Install Rust Nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ env.RUST_NIGHTLY_TOOLCHAIN }}
+          override: true
+          components: rustfmt
+
+      - name: Cargo fmt
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: ${{ env.RUST_NIGHTLY_TOOLCHAIN }}
+          command: fmt
+          args: --all -- --check

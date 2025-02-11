@@ -1,0 +1,72 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+services:
+  collector:
+    image: ghcr.io/apache/skywalking-agent-test-tool/mock-collector:f4f5ef22b1df623464772816bb6b42ba611444ff
+    ports:
+      - "19876:19876"
+      - "12800:12800"
+    healthcheck:
+      test: [ "CMD", "curl", "http://127.0.0.1:12800/healthCheck" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mysql:
+    image: mysql:5.7.42-debian
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=skywalking
+    healthcheck:
+      test: [ "CMD", "mysqlcheck", "-h127.0.0.1", "-P3306", "-uroot", "-ppassword", "--all-databases" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: bitnami/redis:7.0.4
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=password
+
+  memcached:
+    image: memcached:1.6.17
+    ports:
+      - "11211:11211"
+
+  rabbitmq:
+    image: rabbitmq:3.12.8
+    ports:
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mongo:
+    image: mongo:4.4.10
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example

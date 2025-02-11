@@ -1,0 +1,2014 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+segmentItems:
+  - serviceName: skywalking-agent-test-1
+    segmentSize: 19
+    segments:
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/index.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/index.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 1,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: POST:/curl.test.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?single=1",
+                }
+              - { key: http.method, value: POST }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 2,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: POST:/curl.test.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?single=2",
+                }
+              - { key: http.method, value: POST }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 3,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/not-exists.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: true
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/not-exists.php?single=3",
+                }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "404" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 4,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/index.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/index.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/guzzle.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 1,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-2,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: /index.php
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/index.php" }
+              - { key: status_code, value: "200" }
+          - operationName: /curl.test.php
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?single=1",
+                }
+              - { key: status_code, value: "200" }
+          - operationName: /curl.test.php
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?single=2",
+                }
+              - { key: status_code, value: "200" }
+          - operationName: /not-exists.php
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/not-exists.php?single=3",
+                }
+              - { key: status_code, value: "500" }
+          - operationName: /guzzle.php
+            parentSpanId: 0
+            spanId: 5
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9012
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9012/guzzle.php" }
+              - { key: status_code, value: "200" }
+          - operationName: GET:/curl.enter.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/curl.enter.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/not-exists.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: true
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/not-exists.php?multi=3",
+                }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "404" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl-multi.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 1,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: POST:/curl.test.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?multi=1",
+                }
+              - { key: http.method, value: POST }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl-multi.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 3,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: POST:/curl.test.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?multi=2",
+                }
+              - { key: http.method, value: POST }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl-multi.enter.php",
+                  networkAddress: "127.0.0.1:9011",
+                  refType: CrossProcess,
+                  parentSpanId: 2,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: /not-exists.php
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/not-exists.php?multi=3",
+                }
+              - { key: status_code, value: "500" }
+          - operationName: /curl.test.php
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?multi=2",
+                }
+              - { key: status_code, value: "200" }
+          - operationName: /curl.test.php
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl.test.php?multi=1",
+                }
+              - { key: status_code, value: "200" }
+          - operationName: GET:/curl-multi.enter.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - {
+                  key: url,
+                  value: "http://127.0.0.1:9011/curl-multi.enter.php",
+                }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: PDO->__construct
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: dbname=skywalking;host=127.0.0.1;port=3306,
+                }
+          - operationName: PDO->exec
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1;port=3306",
+                }
+              - { key: db.statement, value: SELECT 1 }
+          - operationName: PDO->__construct
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306",
+                }
+          - operationName: PDO->prepare
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306",
+                }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = :user",
+                }
+          - operationName: PDOStatement->execute
+            parentSpanId: 0
+            spanId: 5
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306",
+                }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = :user",
+                }
+          - operationName: PDOStatement->fetchAll
+            parentSpanId: 0
+            spanId: 6
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306",
+                }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = :user",
+                }
+          - operationName: PDO->__construct
+            parentSpanId: 0
+            spanId: 7
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306;",
+                }
+          - operationName: PDO->prepare
+            parentSpanId: 0
+            spanId: 8
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306;",
+                }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = :user",
+                }
+          - operationName: PDOStatement->execute
+            parentSpanId: 0
+            spanId: 9
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306;",
+                }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = :user",
+                }
+          - operationName: PDOStatement->fetchAll
+            parentSpanId: 0
+            spanId: 10
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1:3306;",
+                }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = :user",
+                }
+          - operationName: PDO->__construct
+            parentSpanId: 0
+            spanId: 11
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: dbname=skywalking;host=127.0.0.1;port=3306,
+                }
+          - operationName: PDO->prepare
+            parentSpanId: 0
+            spanId: 12
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1;port=3306",
+                }
+              - { key: db.statement, value: "SELECT * FROM not_exist" }
+          - operationName: PDOStatement->execute
+            parentSpanId: 0
+            spanId: 13
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: "dbname=skywalking;host=127.0.0.1;port=3306",
+                }
+              - { key: db.statement, value: "SELECT * FROM not_exist" }
+            logs:
+              - logEvent:
+                  - { key: error.kind, value: PDOException }
+                  - { key: message, value: not null }
+                  - { key: stack, value: not null }
+          - operationName: GET:/pdo.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/pdo.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: "Predis\\Client->auth"
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: AUTH }
+          - operationName: "Predis\\Client->set"
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: SET }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo }
+          - operationName: "Predis\\Client->get"
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: GET }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo }
+          - operationName: "Predis\\Client->get"
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: GET }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: not-exists }
+          - operationName: GET:/predis.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/predis.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: mysqli->__construct
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+          - operationName: mysqli->query
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - { key: db.statement, value: "SELECT 1" }
+          - operationName: mysqli->__construct
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+          - operationName: mysqli->query
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.statement,
+                  value: "SELECT * FROM `mysql`.`user` WHERE `User` = 'root'",
+                }
+          - operationName: mysqli_connect
+            parentSpanId: 0
+            spanId: 5
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+          - operationName: mysqli_query
+            parentSpanId: 0
+            spanId: 6
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+          - operationName: mysqli_real_connect
+            parentSpanId: 0
+            spanId: 7
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+          - operationName: GET:/mysqli.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/mysqli.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: Memcached->set
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo }
+          - operationName: Memcached->set
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: bar }
+          - operationName: Memcached->get
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo }
+          - operationName: Memcached->get
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: bar }
+          - operationName: Memcached->setMulti
+            parentSpanId: 0
+            spanId: 5
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+          - operationName: Memcached->get
+            parentSpanId: 0
+            spanId: 6
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: not-exists }
+            logs:
+              - logEvent:
+                  - { key: ResultCode, value: "16" }
+                  - { key: ResultMessage, value: NOT FOUND }
+          - operationName: GET:/memcached.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/memcached.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: Redis->connect
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: "127.0.0.1:6379"
+            skipAnalysis: false
+            tags:
+              - key: cache.type
+                value: redis
+          - operationName: Redis->auth
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: AUTH }
+          - operationName: Redis->mset
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: MSET }
+              - { key: cache.op, value: write }
+          - operationName: Redis->get
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: GET }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: key0 }
+          - operationName: Redis->get
+            parentSpanId: 0
+            spanId: 5
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: GET }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: key1 }
+          - operationName: GET:/redis.succ.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/redis.succ.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: Redis->connect
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: "127.0.0.1:6379"
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+          - operationName: Redis->set
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: SET }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo }
+            logs:
+              - logEvent:
+                  - { key: error.kind, value: RedisException }
+                  - { key: message, value: NOAUTH Authentication required. }
+                  - { key: stack, value: not null }
+          - operationName: GET:/redis.fail.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/redis.fail.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: "PhpAmqpLib\\Channel\\AMQPChannel->basic_publish"
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: MQ
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 144
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:5672
+            skipAnalysis: false
+            tags:
+              - { key: mq.broker, value: "127.0.0.1:5672" }
+              - { key: mq.topic, value: "" }
+              - { key: mq.queue, value: queue_test }
+          - operationName: "PhpAmqpLib\\Channel\\AMQPChannel->basic_publish"
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: MQ
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 144
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:5672
+            skipAnalysis: false
+            tags:
+              - { key: mq.broker, value: "127.0.0.1:5672" }
+              - { key: mq.topic, value: exchange_test }
+              - { key: mq.queue, value: routing_test }
+          - operationName: "PhpAmqpLib\\Channel\\AMQPChannel->basic_publish"
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: MQ
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 144
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:5672
+            skipAnalysis: false
+            tags:
+              - { key: mq.broker, value: "127.0.0.1:5672" }
+              - { key: mq.topic, value: "" }
+              - { key: mq.queue, value: not_exists }
+          - operationName: GET:/rabbitmq.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/rabbitmq.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: "MongoDB\\Driver\\Manager->executeCommand"
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 9
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:27017
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: MongoDB }
+              - { key: mongo.db, value: admin }
+          - operationName: "MongoDB\\Driver\\Manager->executeBulkWrite"
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 9
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:27017
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: MongoDB }
+              - { key: mongo.db, value: my_db }
+              - { key: mongo.collection, value: my_collection }
+          - operationName: "MongoDB\\Driver\\Manager->executeQuery"
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 9
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:27017
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: MongoDB }
+              - { key: mongo.db, value: my_db }
+              - { key: mongo.collection, value: my_collection }
+          - operationName: "MongoDB\\Driver\\Manager->executeCommand"
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 9
+            isError: true
+            spanType: Exit
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: MongoDB }
+              - { key: mongo.db, value: admin }
+            logs:
+              - logEvent:
+                  - {
+                      key: error.kind,
+                      value: "MongoDB\\Driver\\Exception\\ConnectionTimeoutException",
+                    }
+                  - { key: message, value: "not null" }
+                  - { key: stack, value: "not null" }
+          - operationName: GET:/mongodb.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/mongodb.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: MemcachePool->set
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo }
+          - operationName: MemcachePool->set
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: bar }
+          - operationName: MemcachePool->get
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo }
+          - operationName: MemcachePool->get
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: bar }
+          - operationName: MemcachePool->get
+            parentSpanId: 0
+            spanId: 5
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: not-exists }
+          - operationName: memcache_set
+            parentSpanId: 0
+            spanId: 6
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo }
+          - operationName: memcache_get
+            parentSpanId: 0
+            spanId: 7
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo }
+          - operationName: memcache_get
+            parentSpanId: 0
+            spanId: 8
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: true
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: not-exists }
+          - operationName: GET:/memcache.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/memcache.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+  - serviceName: skywalking-agent-test-2
+    segmentSize: 1
+    segments:
+      - segmentId: "not null"
+        spans:
+          - operationName: /index.php
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9011
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9011/index.php" }
+              - { key: status_code, value: "200" }
+          - operationName: GET:/guzzle.php
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9012/guzzle.php" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl.enter.php",
+                  networkAddress: "127.0.0.1:9012",
+                  refType: CrossProcess,
+                  parentSpanId: 5,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1,
+                  traceId: "not null",
+                }
+  - serviceName: skywalking-agent-test-1-swoole
+    segmentSize: 2
+    segments:
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9501/?swoole=1" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl",
+                  networkAddress: "127.0.0.1:9501",
+                  refType: CrossProcess,
+                  parentSpanId: 1,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1-swoole,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: /
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9501
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9501/?swoole=1" }
+              - { key: status_code, value: "200" }
+          - operationName: /
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9502
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/" }
+              - { key: status_code, value: "200" }
+          - operationName: GET:/curl
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9501/curl" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+  - serviceName: skywalking-agent-test-2-swoole
+    segmentSize: 10
+    segments:
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl",
+                  networkAddress: "127.0.0.1:9502",
+                  refType: CrossProcess,
+                  parentSpanId: 2,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-1-swoole,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: GET:/
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/?swoole=2" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+            refs:
+              - {
+                  parentEndpoint: "GET:/curl",
+                  networkAddress: "127.0.0.1:9502",
+                  refType: CrossProcess,
+                  parentSpanId: 1,
+                  parentTraceSegmentId: "not null",
+                  parentServiceInstance: "not null",
+                  parentService: skywalking-agent-test-2-swoole,
+                  traceId: "not null",
+                }
+      - segmentId: "not null"
+        spans:
+          - operationName: /
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8002
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:9502
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/?swoole=2" }
+              - { key: status_code, value: "200" }
+          - operationName: GET:/curl
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/curl" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: PDO->__construct
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: dbname=skywalking;host=127.0.0.1;port=3306,
+                }
+          - operationName: PDO->exec
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8003
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - {
+                  key: db.data_source,
+                  value: dbname=skywalking;host=127.0.0.1;port=3306,
+                }
+              - { key: db.statement, value: SELECT 1 }
+          - operationName: GET:/pdo
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/pdo" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: mysqli->__construct
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+          - operationName: mysqli->query
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8004
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:3306
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: mysql }
+              - { key: db.statement, value: SELECT 1 }
+          - operationName: GET:/mysqli
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/mysqli" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: Memcached->set
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo000 }
+          - operationName: Memcached->get
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo000 }
+          - operationName: GET:/memcached
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/memcached" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: Redis->connect
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+          - operationName: Redis->auth
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: AUTH }
+          - operationName: Redis->set
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: SET }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo001 }
+          - operationName: Redis->get
+            parentSpanId: 0
+            spanId: 4
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 7
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: GET }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo001 }
+          - operationName: GET:/redis
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/redis" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: "Predis\\Client->auth"
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: AUTH }
+          - operationName: "Predis\\Client->set"
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: SET }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo002 }
+          - operationName: "Predis\\Client->get"
+            parentSpanId: 0
+            spanId: 3
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8006
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:6379
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: redis }
+              - { key: cache.cmd, value: GET }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo002 }
+          - operationName: GET:/predis
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/predis" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: "MongoDB\\Driver\\Manager->executeCommand"
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Database
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 9
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:27017
+            skipAnalysis: false
+            tags:
+              - { key: db.type, value: MongoDB }
+              - { key: mongo.db, value: admin }
+          - operationName: GET:/mongodb
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/mongodb" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
+      - segmentId: "not null"
+        spans:
+          - operationName: MemcachePool->set
+            parentSpanId: 0
+            spanId: 1
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: set }
+              - { key: cache.op, value: write }
+              - { key: cache.key, value: foo000 }
+          - operationName: MemcachePool->get
+            parentSpanId: 0
+            spanId: 2
+            spanLayer: Cache
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 20
+            isError: false
+            spanType: Exit
+            peer: 127.0.0.1:11211
+            skipAnalysis: false
+            tags:
+              - { key: cache.type, value: memcache }
+              - { key: cache.cmd, value: get }
+              - { key: cache.op, value: read }
+              - { key: cache.key, value: foo000 }
+          - operationName: GET:/memcache
+            parentSpanId: -1
+            spanId: 0
+            spanLayer: Http
+            startTime: gt 0
+            endTime: gt 0
+            componentId: 8001
+            isError: false
+            spanType: Entry
+            peer: ""
+            skipAnalysis: false
+            tags:
+              - { key: url, value: "http://127.0.0.1:9502/memcache" }
+              - { key: http.method, value: GET }
+              - { key: http.status_code, value: "200" }
